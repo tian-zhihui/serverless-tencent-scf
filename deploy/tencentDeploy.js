@@ -58,32 +58,37 @@ class TencentDeploy {
       const funcObject = _.cloneDeep(services.Resources.default[funcName])
       funcObject.Name = funcName
       funcObject.FuncName = this.provider.getFunctionName(funcName)
+      funcObject.Namespace = provider.getFunctionNamespace(funcName)
 
-      this.serverless.cli.log(`Creating function ${funcObject.FuncName}`)
-      const oldFunc = await func.deploy('default', funcObject)
-      this.serverless.cli.log(`Created function ${funcObject.FuncName}`)
+      this.serverless.cli.log(`Creating function ${funcObject.Namespace}/${funcObject.FuncName}`)
+      const oldFunc = await func.deploy(funcObject.Namespace, funcObject)
+      this.serverless.cli.log(`Created function ${funcObject.Namespace}/${funcObject.FuncName}`)
 
-      this.serverless.cli.log(`Setting tags for function ${funcObject.FuncName}`)
-      await func.createTags('default', funcObject.FuncName, funcObject.Properties.Tags)
+      this.serverless.cli.log(
+        `Setting tags for function ${funcObject.Namespace}/${funcObject.FuncName}`
+      )
+      await func.createTags(funcObject.Namespace, funcObject.FuncName, funcObject.Properties.Tags)
 
-      if ((await func.checkStatus('default', funcObject)) == false) {
-        throw `Function ${funcObject.FuncName} create/update failed`
+      if ((await func.checkStatus(funcObject.Namespace, funcObject)) == false) {
+        throw `Function ${funcObject.Namespace}/${funcObject.FuncName} create/update failed`
       }
 
-      this.serverless.cli.log(`Creating trigger for function ${funcObject.FuncName}`)
+      this.serverless.cli.log(
+        `Creating trigger for function ${funcObject.Namespace}/${funcObject.FuncName}`
+      )
       await trigger.create(
-        'default',
+        funcObject.Namespace,
         oldFunc ? oldFunc.Triggers : null,
         funcObject,
         (response, thisTrigger) => {
           if (thisTrigger.Type == 'apigw') {
             const resultDesc = JSON.parse(response.TriggerDesc)
             this.serverless.cli.log(
-              `Created ${thisTrigger.Type} trigger ${response.TriggerName} for function ${funcObject.FuncName} success. service id ${resultDesc.service.serviceId} url ${resultDesc.service.subDomain}`
+              `Created ${thisTrigger.Type} trigger ${response.TriggerName} for function ${funcObject.Namespace}/${funcObject.FuncName} success. service id ${resultDesc.service.serviceId} url ${resultDesc.service.subDomain}`
             )
           } else {
             this.serverless.cli.log(
-              `Created ${thisTrigger.Type} trigger ${response.TriggerName} for function ${funcObject.FuncName} success.`
+              `Created ${thisTrigger.Type} trigger ${response.TriggerName} for function ${funcObject.Namespace}/${funcObject.FuncName} success.`
             )
           }
         },
@@ -92,7 +97,9 @@ class TencentDeploy {
         }
       )
 
-      this.serverless.cli.log(`Deployed function ${funcObject.FuncName} successful`)
+      this.serverless.cli.log(
+        `Deployed function ${funcObject.Namespace}/${funcObject.FuncName} successful`
+      )
     }
 
     let outputInformation = `Service Information\nservice: ${this.serverless.service.service} \nstage: ${this.provider.options.stage} \nregion: ${this.provider.options.region} \nstack: ${this.serverless.service.service}-${this.provider.options.stage}\n`
@@ -115,13 +122,15 @@ class TencentDeploy {
       const funcObject = _.cloneDeep(services.Resources.default[funcName])
       funcObject.Name = funcName
       funcObject.FuncName = this.provider.getFunctionName(funcName)
+      funcObject.Namespace = provider.getFunctionNamespace(funcName)
       const deployFunctionName = this.provider.getFunctionName(funcName)
-      outputInformation = outputInformation + `  ${funcName}: ${deployFunctionName}\n`
-      functionInformation = await func.getFunction('default', deployFunctionName, false)
+      outputInformation =
+        outputInformation + `  ${funcObject.Namespace}/${funcName}: ${deployFunctionName}\n`
+      functionInformation = await func.getFunction(funcObject.Namespace, deployFunctionName, false)
       if (functionInformation.Triggers && functionInformation.Triggers.length > 0) {
         for (let i = 0; i <= functionInformation.Triggers.length; i++) {
-          if ((await func.checkStatus('default', funcObject)) == false) {
-            throw `Function ${funcObject.FuncName} create/update failed`
+          if ((await func.checkStatus(funcObject.Namespace, funcObject)) == false) {
+            throw `Function ${funcObject.Namespace}/${funcObject.FuncName} create/update failed`
           }
           const thisTrigger = functionInformation.Triggers[i]
           try {

@@ -55,8 +55,10 @@ class TencentProvider {
     this.provider = this
     let commands = ''
     const commandsAttr = this.serverless.pluginManager.cliCommands
-    for (let i = 0; i < commandsAttr.length; i++) {
-      commands = commands + (i == 0 ? '' : '_') + commandsAttr[i]
+    if (commandsAttr !== undefined) {
+      for (let i = 0; i < commandsAttr.length; i++) {
+        commands = commands + (i == 0 ? '' : '_') + commandsAttr[i]
+      }
     }
     this.reportInputs = {
       name: 'serverless-tencent-scf',
@@ -314,6 +316,11 @@ class TencentProvider {
     return vpcId && subnetId ? { VpcId: vpcId, SubnetId: subnetId } : null
   }
 
+  getFunctionNamespace(functionName) {
+    const functionNamespace = this.serverless.service.functions[functionName].namespace
+    return functionNamespace || 'default'
+  }
+
   async getCredentials() {
     try {
       if (this.options.credentials) {
@@ -378,6 +385,10 @@ class TencentProvider {
     const environment = this.getEnvironment(funcObject)
     if (environment) {
       functionResource['Properties']['Environment'] = environment
+    }
+    const namespace = this.getFunctionNamespace(functionName)
+    if (namespace) {
+      functionResource['Properties']['Namespace'] = namespace
     }
     return functionResource
   }

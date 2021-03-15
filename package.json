@@ -1,6 +1,6 @@
 {
   "name": "serverless-tencent-scf",
-  "version": "0.1.37",
+  "version": "0.1.37-ares",
   "description": "Provider plugin for the Serverless Framework v1.x which adds support for Tencent Cloud Functions.",
   "main": "index.js",
   "author": "Tencent Cloud, Inc.",
@@ -9,7 +9,7 @@
     "git": "https://github.com/serverless-tencent/serverless-tencent-scf"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "lint": "eslint . --fix --cache",
     "coverage": "jest --coverage"
   },

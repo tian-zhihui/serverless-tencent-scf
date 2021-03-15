@@ -54,9 +54,10 @@ class TencentInfo {
       const functions = Object.keys(this.serverless.service.functions)
       if (functions.length > 0) {
         for (let eveFunctionIndex = 0; eveFunctionIndex < functions.length; eveFunctionIndex++) {
+          const functionNamespace = this.provider.getFunctionNamespace(functions[eveFunctionIndex])
           const functionName = this.provider.getFunctionName(functions[eveFunctionIndex])
           if (deployedFunction.indexOf(functionName) == -1) {
-            output = output + '  ' + functions[eveFunctionIndex] + '\n'
+            output = output + '  ' + functionNamespace + '/' + functions[eveFunctionIndex] + '\n'
           }
         }
       } else {
