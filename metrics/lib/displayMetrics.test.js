@@ -1,5 +1,5 @@
 const sinon = require('sinon')
-const Serverless = require('../test/serverless')
+const Serverless = require('../../test/serverless')
 const DisplayMetrics = require('./displayMetrics')
 
 describe('DisplayMetrics@Library', () => {
@@ -13,7 +13,8 @@ describe('DisplayMetrics@Library', () => {
   beforeEach(() => {
     serverless = new Serverless()
     options = {
-      region: 'ap-guangzhou'
+      region: 'ap-guangzhou',
+      credentials: {}
     }
     displayMetrics = new DisplayMetrics(options, serverless)
 

@@ -17,6 +17,7 @@ describe('TencentLogs', () => {
     options = {
       stage: 'dev',
       region: 'ap-guangzhou',
+      credentials: {},
       function: 'test'
     }
 

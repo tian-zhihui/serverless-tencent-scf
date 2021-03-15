@@ -35,6 +35,7 @@ tencent_appid = 12561*****`)
     const options = {
       stage: 'dev',
       region: 'ap-guangzhou',
+      credentials: {},
       function: 'test'
     }
     tencentProvider = new TencentProvider(serverless, options)

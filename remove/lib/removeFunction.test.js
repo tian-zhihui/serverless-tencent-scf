@@ -1,5 +1,5 @@
 const sinon = require('sinon')
-const Serverless = require('../test/serverless')
+const Serverless = require('../../test/serverless')
 const RemoveFunction = require('./removeFunction')
 
 describe('RemoveFunction@Library', () => {
@@ -12,7 +12,8 @@ describe('RemoveFunction@Library', () => {
   beforeEach(() => {
     serverless = new Serverless()
     options = {
-      region: 'ap-guangzhou'
+      region: 'ap-guangzhou',
+      credentials: {}
     }
     removeFunction = new RemoveFunction(options, serverless)
 

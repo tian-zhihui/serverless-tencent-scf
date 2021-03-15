@@ -1,5 +1,5 @@
 const sinon = require('sinon')
-const Serverless = require('../test/serverless')
+const Serverless = require('../../test/serverless')
 const RetrieveLogs = require('./retrieveLogs')
 
 describe('RetrieveLogs@Library', () => {
@@ -12,7 +12,8 @@ describe('RetrieveLogs@Library', () => {
   beforeEach(() => {
     serverless = new Serverless()
     options = {
-      region: 'ap-guangzhou'
+      region: 'ap-guangzhou',
+      credentials: {}
     }
     retrieveLogs = new RetrieveLogs(options, serverless)
 

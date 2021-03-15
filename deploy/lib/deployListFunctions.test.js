@@ -1,5 +1,5 @@
 const sinon = require('sinon')
-const Serverless = require('../test/serverless')
+const Serverless = require('../../test/serverless')
 const DeployListFunctions = require('./deployListFunctions')
 
 describe('DeployListFunctions@Library', () => {
@@ -12,7 +12,8 @@ describe('DeployListFunctions@Library', () => {
   beforeEach(() => {
     serverless = new Serverless()
     options = {
-      region: 'ap-guangzhou'
+      region: 'ap-guangzhou',
+      credentials: {}
     }
     deployListFunctions = new DeployListFunctions(options, serverless)
 

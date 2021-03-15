@@ -1,5 +1,5 @@
 const sinon = require('sinon')
-const Serverless = require('../test/serverless')
+const Serverless = require('../../test/serverless')
 const RollbackService = require('./rollbackService')
 
 describe('RollbackService@Library', () => {
@@ -13,7 +13,8 @@ describe('RollbackService@Library', () => {
   beforeEach(() => {
     serverless = new Serverless()
     options = {
-      region: 'ap-guangzhou'
+      region: 'ap-guangzhou',
+      credentials: {}
     }
     rollbackService = new RollbackService(options, serverless)
 

@@ -1,5 +1,6 @@
+console.log(process.cwd())
 const sinon = require('sinon')
-const Serverless = require('../test/serverless')
+const Serverless = require('../../test/serverless')
 const InvokeFunction = require('./invokeFunction')
 
 describe('InvokeFunction@Library', () => {
@@ -12,7 +13,8 @@ describe('InvokeFunction@Library', () => {
   beforeEach(() => {
     serverless = new Serverless()
     options = {
-      region: 'ap-guangzhou'
+      region: 'ap-guangzhou',
+      credentials: {}
     }
     invokeFunction = new InvokeFunction(options, serverless)
 
