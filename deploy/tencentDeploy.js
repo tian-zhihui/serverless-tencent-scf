@@ -59,6 +59,8 @@ class TencentDeploy {
       funcObject.Name = funcName
       funcObject.FuncName = this.provider.getFunctionName(funcName)
       funcObject.Namespace = provider.getFunctionNamespace(funcName)
+      funcObject.Namespace = provider.getFunctionNamespace(funcName)
+      funcObject.Layers = provider.getFunctionLayers(funcName)
 
       this.serverless.cli.log(`Creating function ${funcObject.Namespace}/${funcObject.FuncName}`)
       const oldFunc = await func.deploy(funcObject.Namespace, funcObject)

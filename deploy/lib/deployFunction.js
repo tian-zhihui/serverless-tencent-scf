@@ -152,8 +152,13 @@ class DeployFunction extends AbstractHandler {
       Role: funcObject.Properties.Role,
       MemorySize: funcObject.Properties.MemorySize,
       Timeout: funcObject.Properties.Timeout,
-      Description: funcObject.Properties.Description
+      Description: funcObject.Properties.Description,
+      Layers: funcObject.Layers
     }
+
+    console.log({
+      createFuncRequest: JSON.stringify(createFuncRequest)
+    })
 
     if (!_.isEmpty(funcObject.Properties.Environment)) {
       const env = funcObject.Properties.Environment
@@ -218,7 +223,8 @@ class DeployFunction extends AbstractHandler {
       Runtime: funcObject.Properties.Runtime,
       Role: funcObject.Properties.Role,
       MemorySize: funcObject.Properties.MemorySize,
-      Timeout: funcObject.Properties.Timeout
+      Timeout: funcObject.Properties.Timeout,
+      Layers: funcObject.Layers
     }
 
     if (!_.isEmpty(funcObject.Properties.Environment)) {

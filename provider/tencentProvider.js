@@ -321,6 +321,20 @@ class TencentProvider {
     return functionNamespace || 'default'
   }
 
+  getFunctionLayers(functionName) {
+    const layers = this.serverless.service.functions[functionName].layers
+    const Layers = []
+    if (Array.isArray(layers)) {
+      for (const layer of layers) {
+        Layers.push({
+          LayerName: layer.name,
+          LayerVersion: layer.version
+        })
+      }
+    }
+    return Layers
+  }
+
   async getCredentials() {
     try {
       if (this.options.credentials) {
