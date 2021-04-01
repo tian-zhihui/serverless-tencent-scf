@@ -152,6 +152,7 @@ class DeployFunction extends AbstractHandler {
       Role: funcObject.Properties.Role,
       MemorySize: funcObject.Properties.MemorySize,
       Timeout: funcObject.Properties.Timeout,
+      InitTimeout: 15,
       Description: funcObject.Properties.Description,
       Layers: funcObject.Layers
     }
@@ -224,6 +225,7 @@ class DeployFunction extends AbstractHandler {
       Role: funcObject.Properties.Role,
       MemorySize: funcObject.Properties.MemorySize,
       Timeout: funcObject.Properties.Timeout,
+      InitTimeout: 15,
       Layers: funcObject.Layers
     }
 
