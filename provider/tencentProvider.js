@@ -492,6 +492,8 @@ class TencentProvider {
         Topic: event.parameters.topic,
         MaxMsgNum: event.parameters.maxMsgNum,
         Offset: event.parameters.offset,
+        Retry: event.parameters.retry,
+        Timeout: event.parameters.timeout,
         Enable: event.parameters.enable
       }
     }

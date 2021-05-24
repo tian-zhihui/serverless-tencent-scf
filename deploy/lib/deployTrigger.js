@@ -138,7 +138,9 @@ class DeployTrigger extends AbstractHandler {
           }
           desc = {
             maxMsgNum: trigger.Properties.MaxMsgNum.toString(),
-            offset: trigger.Properties.Offset || 'latest'
+            offset: trigger.Properties.Offset || 'latest',
+            retry: trigger.Properties.Retry,
+            timeOut: trigger.Properties.Timeout
           }
           args.TriggerName = util.format('%s-%s', trigger.Properties.Name, trigger.Properties.Topic)
           args.TriggerDesc = JSON.stringify(desc)
@@ -262,6 +264,8 @@ class DeployTrigger extends AbstractHandler {
       case Constants.ScfTriggerTypeCkafka:
         // ckafka not support enable/disable
         if (
+          trigger.Properties.Retry == triggerDesc.retry &&
+          trigger.Properties.Timeout == triggerDesc.timeout &&
           trigger.Properties.Topic == triggerDesc.topicName &&
           trigger.Properties.MaxMsgNum == triggerDesc.maxMsgNum &&
           (trigger.Properties.Offset ? trigger.Properties.Offset == triggerDesc.offset : true)
